@@ -20,12 +20,12 @@
         var x = canvas.width/2;
         var y = canvas.height-30;
 
-        var dx = 3;
-        var dy = -1;
+        var dx = 2;
+        var dy = 2;
 
-        var ballRadius = 10;
+        var ballRadius = 8;
 
-        var paddleHeight = 10;
+        var paddleHeight = 8;
         var paddleWidth = 75;
         var paddleX = (canvas.width - paddleWidth) / 2;
 
@@ -37,10 +37,13 @@
         var brickWidth = 50;
         var brickHeight = 20;
         var brickPadding = 10;
-        var brickOffsetTop = 10;
+        var brickOffsetTop = 30;
         var brickOffsetLeft = 5;
 
         var bricks = [];
+
+        var score = 0;
+
         for (var c = 0; c < brickColumnCount; c++) {
             bricks[c] = [];
             for (var r = 0; r < brickRowCount; r++) {
@@ -69,10 +72,12 @@
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawScore();
             drawBricks();
             drawBall();
             drawPaddle();
             collisionDetection();
+            
 
             if (x + dx + ballRadius > canvas.width || x + dx < ballRadius) {
                 dx = -dx;
@@ -136,14 +141,27 @@
             }
         }
 
+        function drawScore() {
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Score: " + score, 8, 20);
+        }
 
         function collisionDetection() {
             for (var c = 0; c < brickColumnCount; c++) {
                 for (var r = 0; r < brickRowCount; r++) {
                     var b = bricks[c][r];
-                    if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                        dy = -dy;
-                        b.status = 0;
+                    if(b.status == 1){
+                        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+                            dy = -dy;
+                            b.status = 0;
+                            score++;
+                            if (score == brickRowCount * brickColumnCount) {
+                                alert("YOU WIN, CONGRATULATIONS!");
+                                document.location.reload();
+                                clearInterval(interval);
+                            }
+                        }
                     }
                 }
             }
