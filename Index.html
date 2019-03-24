@@ -32,13 +32,13 @@
         var rightPressed = false;
         var leftPressed = false;
 
-        var brickRowCount = 3;
-        var brickColumnCount = 5;
-        var brickWidth = 75;
+        var brickRowCount = 4;
+        var brickColumnCount = 8;
+        var brickWidth = 50;
         var brickHeight = 20;
         var brickPadding = 10;
-        var brickOffsetTop = 30;
-        var brickOffsetLeft = 30;
+        var brickOffsetTop = 10;
+        var brickOffsetLeft = 5;
 
         var bricks = [];
         
@@ -55,7 +55,7 @@
         function drawBall() {
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = getRndColor(paddleX)
             ctx.fill();
             ctx.closePath();
         }
@@ -63,7 +63,7 @@
         function drawPaddle() {
             ctx.beginPath();
             ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = getRndColor(paddleX);
             ctx.fill();
             ctx.closePath();
         }
@@ -127,12 +127,17 @@
                     bricks[c][r].y = brickY;
                     ctx.beginPath();
                     ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                    ctx.fillStyle = "#0095DD";
+                    ctx.fillStyle = getRndColor(c * 20 + r * 20);
                     ctx.fill();
                     ctx.closePath();
                 }
             }
         }
+
+        function getRndColor(b) {
+        
+        return 'rgb(' + 0 + ',' + (20 + b) + ',' + (20 + b) + ')';
+}
 
         var interval = setInterval(draw, 10);
 
