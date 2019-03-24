@@ -53,17 +53,25 @@
             drawBall();
             drawPaddle();
 
-            if(x + dx + ballRadius > canvas.width || x + dx < ballRadius) {
+            if (x + dx + ballRadius > canvas.width || x + dx < ballRadius) {
                 dx = -dx;
             }
-            if(y + dy + ballRadius > canvas.height || y + dy < ballRadius) {
+            if (y + dy < ballRadius) {
                 dy = -dy;
+            } else if (y + dy > canvas.height-ballRadius) {
+                if (x > paddleX && x < paddleX + paddleWidth) {
+                    dy = -dy;
+                }
+                else {
+                    alert("GAME OVER");
+                    document.location.reload();
+                }
             }
 
-            if(rightPressed && paddleX < canvas.width - paddleWidth) {
+            if (rightPressed && paddleX < canvas.width - paddleWidth) {
                 paddleX += 7;
             }
-            else if(leftPressed && paddleX > 0) {
+            else if (leftPressed && paddleX > 0) {
                 paddleX -= 7;    
             }  
             x += dx;
@@ -91,7 +99,7 @@
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
         
-        setInterval(draw, 10);
+        var interval = setInterval(draw, 10);
         
     </script>
 
